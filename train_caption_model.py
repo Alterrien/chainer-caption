@@ -13,9 +13,10 @@ import os
 
 from chainer import cuda
 from chainer import optimizers, serializers
+from chainer.optimizer import GradientClipping
 
-from Image2CaptionDecoder import Image2CaptionDecoder
-from CaptionDataLoader import CaptionDataLoader
+from code.Image2CaptionDecoder import Image2CaptionDecoder
+from code.CaptionDataLoader import CaptionDataLoader
 
 # Parse arguments
 parser = argparse.ArgumentParser()
@@ -83,8 +84,9 @@ print('training started')
 sum_loss = 0
 print(dataset.epoch)
 iterraton = 1
+optimizer.add_hook(GradientClipping(grad_clip))
 while (dataset.epoch <= args.epoch):
-    optimizer.zero_grads()
+    model.cleargrads()
     current_epoch = dataset.epoch
     image_feature, x_batch = dataset.get_batch(batch_size)
 
@@ -103,7 +105,6 @@ while (dataset.epoch <= args.epoch):
 
     loss.backward()
     loss.unchain_backward()
-    optimizer.clip_grads(grad_clip)
     optimizer.update()
 
     sum_loss += loss.data * batch_size

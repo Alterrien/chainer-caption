@@ -11,7 +11,7 @@ class CaptionDataLoader(object):
     def __init__(self, captions, image_feature_path, preload_all_features=False, filename_img_id=False):
         self.captions = captions
         self.image_feature_path = image_feature_path  # path before image id. e.g. ../data/MSCOCO/train2014_ResNet50_features/COCO_train2014_
-        self.caption_ids = captions.keys()
+        self.caption_ids = list(captions.keys())
         self.random_indicies = np.random.permutation(len(self.captions))
         self.index_count = 0
         self.epoch = 1
