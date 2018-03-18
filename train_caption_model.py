@@ -11,6 +11,7 @@ import json
 import os
 # os.environ["CHAINER_TYPE_CHECK"] = "0" #to disable type check.
 
+import chainer
 from chainer import cuda
 from chainer import optimizers, serializers
 from chainer.optimizer import GradientClipping
@@ -103,9 +104,10 @@ while (dataset.epoch <= args.epoch):
     with open(args.savedir + "/real_loss.txt", "a") as f:
         f.write(str(loss.data) + '\n')
 
-    loss.backward()
-    loss.unchain_backward()
-    optimizer.update()
+    with chainer.using_config('train', True):
+        loss.backward()
+        loss.unchain_backward()
+        optimizer.update()
 
     sum_loss += loss.data * batch_size
     iterraton += 1
