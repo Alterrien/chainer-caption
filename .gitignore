@@ -1,1 +1,8 @@
+venv/
 *.pyc
+data/MSCOCO/
+data/ResNet50.model
+data/caption_cn_model40.model
+data/caption_en_model40.model
+data/caption_jp_mt_model40.model
+data/caption_jp_yj_model40.model

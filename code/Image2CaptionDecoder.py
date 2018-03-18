@@ -27,8 +27,7 @@ class Image2CaptionDecoder(chainer.Chain):
     def input_cnn_feature(self, hx, cx, image_feature):
         h = self.embed_image(image_feature)
         h = [F.reshape(img_embedding, (1, self.hidden_dim)) for img_embedding in h]  # 一回　python list/tuple にしないとerrorが出る
-        with chainer.using_config('train', False):
-            hy, cy, ys = self.lstm(hx, cx, h)
+        hy, cy, ys = self.lstm(hx, cx, h)
         return hy, cy
 
     def __call__(self, hx, cx, caption_batch):
@@ -36,8 +35,7 @@ class Image2CaptionDecoder(chainer.Chain):
         # cx (~chainer.Variable): Initial cell states.
         # xs (list of ~chianer.Variable): List of input sequences.Each element ``xs[i]`` is a :class:`chainer.Variable` holding a sequence.
         xs = [self.embed_word(caption) for caption in caption_batch]
-        with chainer.using_config('train', False):
-            hy, cy, ys = self.lstm(hx, cx, xs)
+        hy, cy, ys = self.lstm(hx, cx, xs)
         predicted_caption_batch = [self.decode_word(generated_caption) for generated_caption in ys]
         if self.train:
             loss = 0
