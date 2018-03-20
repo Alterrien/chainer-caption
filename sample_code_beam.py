@@ -9,7 +9,7 @@ Sample code to generate caption using beam search
 
 import argparse
 
-from CaptionGenerator import CaptionGenerator
+from code.CaptionGenerator import CaptionGenerator
 
 # Parse arguments
 parser = argparse.ArgumentParser()
