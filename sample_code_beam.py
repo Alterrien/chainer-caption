@@ -21,6 +21,7 @@ parser.add_argument('--rnn-model', type=str, default='./data/caption_model.model
 parser.add_argument('--beam', default=3, type=int, help='beam size in beam search')
 parser.add_argument('--depth', default=50, type=int, help='depth limit in beam search')
 parser.add_argument('--lang', default="<sos>", type=str, help='special word to indicate the langauge or just <sos>')
+parser.add_argument('--hidden', default=512, type=int, help='Hidden units in LSTM')
 args = parser.parse_args()
 
 caption_generator = CaptionGenerator(
@@ -31,6 +32,7 @@ caption_generator = CaptionGenerator(
     depth_limit=args.depth,
     gpu_id=args.gpu,
     first_word=args.lang,
+    hidden_dim=args.hidden
     )
 
 captions = caption_generator.generate(args.img)
